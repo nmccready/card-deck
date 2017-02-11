@@ -1,0 +1,21 @@
+{
+  "name": "card-deck",
+  "version": "0.0.1",
+  "description": "Basics to support a playing card game in es6.",
+  "main": "index.js",
+  "scripts": {
+    "test": "tape test *.js | faucet",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "playing",
+    "cards",
+    "fun"
+  ],
+  "author": "Nicholas McCready",
+  "license": "MIT",
+  "devDependencies": {
+    "faucet": "0.0.1",
+    "tape": "4.6.3"
+  }
+}
