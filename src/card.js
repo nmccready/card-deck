@@ -1,4 +1,5 @@
-const deck = require('./deck')
+const deck = require('./deck');
+const _ = require('lodash');
 
 const defaults = {
   "singleFace": false
@@ -26,9 +27,6 @@ class Card {
     suitString,
     options
   } = {}) {
-    if (!(this instanceof Card)) {
-      return new Card(rank, rankString, suit, suitString, options);
-    }
 
     this.options = Object.assign({}, Card.defaults, options);
 
@@ -46,8 +44,8 @@ class Card {
   /**
    * get the text representation of the card
    */
-  toString() {
-    return JSON.stringify(this);
+  toString(omit) {
+    return JSON.stringify(_.omit(this, omit));
   }
 }
 

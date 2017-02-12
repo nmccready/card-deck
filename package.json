@@ -4,7 +4,8 @@
   "description": "Basics to support a playing card game in es6.",
   "main": "index.js",
   "scripts": {
-    "test": "tape test *.js | faucet",
+    "test": "tape ./test/*.js | faucet",
+    "tape": "tape ./test/*.js",
     "start": "node index.js"
   },
   "keywords": [
@@ -15,7 +16,12 @@
   "author": "Nicholas McCready",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "3.15.0",
     "faucet": "0.0.1",
     "tape": "4.6.3"
+  },
+  "dependencies": {
+    "lodash": "4.17.4",
+    "through2": "2.0.3"
   }
 }

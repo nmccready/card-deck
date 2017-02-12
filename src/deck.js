@@ -1,3 +1,4 @@
+const utils = require('./utils');
 const defaults = {
   "shuffleTimes": 7,
   "decks": 1,
@@ -28,27 +29,18 @@ const defaults = {
   }
 };
 
-/**
- * The playing card library core object
- *
- * @param obj options
- */
 class Deck {
 
-  constructor(options) {
-    var options = Object.assign({},options || {}, Deck.defaults);
-
-    if (!(this instanceof Deck)) {
-      return new Deck(options);
-    }
+  constructor(options = {}) {
+    var options = Object.assign({}, Deck.defaults, options);//clone
 
     this.options = options;
     this.init();
 
     if (this.options.startShuffled) {
-      this.shuffle(5);
+      this.shuffle(Deck.defaults.shuffleTimes);
     }
-    return this;
+
   }
 
   // build deck
@@ -92,9 +84,7 @@ class Deck {
     this.cards.push(card);
   }
 
-
-  shuffle(n) {
-    n = n || defaults.shuffleTimes;
+  shuffle(n = defaults.shuffleTimes) {
 
     var l = this.cards.length,
       r, tmp, i, j;
@@ -119,8 +109,6 @@ class Deck {
 
   // can be overriden based on game rules
   compareRank(a, b) {
-    var intRegex = /^\d+$/;
-
     if (a.rank == b.rank) return 0;
     if (a.rank == "N") return 1;
     if (b.rank == "N") return -1;
@@ -133,12 +121,21 @@ class Deck {
     if (a.rank == "Q" && b.rank == "K") return -1;
     if (a.rank == "Q" && b.rank == "J") return 1;
     if (a.rank == "J" && b.rank == "Q") return -1;
-    if (a.rank == "K" && intRegex.test(b.rank)) return 1;
-    if (a.rank == "Q" && intRegex.test(b.rank)) return 1;
-    if (a.rank == "J" && intRegex.test(b.rank)) return 1;
-    if (intRegex.test(a.rank) && b.rank == "K") return -1;
-    if (intRegex.test(a.rank) && b.rank == "Q") return -1;
-    if (intRegex.test(a.rank) && b.rank == "J") return -1;
+    if (a.rank == "K" && utils.isNumeric(b.rank)) return 1;
+    if (a.rank == "Q" && utils.isNumeric(b.rank)) return 1;
+    if (a.rank == "J" && utils.isNumeric(b.rank)) return 1;
+    if (utils.isNumeric(a.rank) && b.rank == "K") return -1;
+    if (utils.isNumeric(a.rank) && b.rank == "Q") return -1;
+    if (utils.isNumeric(a.rank) && b.rank == "J") return -1;
+  }
+
+  toString(){
+    let str = '', comma;
+    for(let i in this.cards){
+      comma = i == this.cards.length - 1 ? '' : ',';
+      str += `Card: ${this.cards[i].toString(['options','suit'])}${comma}\n`;
+    }
+    return str;
   }
 }
 
